@@ -1,46 +1,68 @@
-import Link from 'next/link'
+"use client";
+
+import { useState } from "react";
+import WelcomeScreen from "@/components/WelcomeScreen";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function Home() {
+  const [showHome, setShowHome] = useState(false);
+
   return (
-    <main className="flex flex-col items-center justify-center p-6">
-      <h2 className="text-2xl font-semibold mb-4 text-green-800">
-        What are you looking for?
-      </h2>
+    <>
+      {!showHome && (
+        <div className="fullscreen-welcome">
+          <WelcomeScreen onFinish={() => setShowHome(true)} />
+        </div>
+      )}
 
-      <div className="w-full max-w-sm flex flex-col gap-4">
-        <Link
-          href="/listings/find_hostel"
-          className="block text-center bg-green-600 text-white py-3 rounded-xl"
+      {showHome && (
+        <motion.main
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="flex flex-col items-center justify-center p-6"
         >
-          🏠 View Available Hostels
-        </Link>
+          <h2 className="text-2xl font-semibold mb-4 text-green-800">
+            What are you looking for?
+          </h2>
 
-        <Link
-          href="/listings/find_roommate"
-          className="block text-center bg-green-500 text-white py-3 rounded-xl"
-        >
-          👯 Find a Roommate
-        </Link>
-        <hr />
+          <div className="w-full max-w-sm flex flex-col gap-4">
+            <Link
+              href="/listings/find_hostel"
+              className="block text-center bg-green-600 text-white py-3 rounded-xl"
+            >
+              🏠 View Available Hostels
+            </Link>
 
-        <p className="text-center text-gray-700 mt-2 font-medium">
-          Are you an House Agent / Landlord?
-        </p>
+            <Link
+              href="/listings/find_roommate"
+              className="block text-center bg-green-500 text-white py-3 rounded-xl"
+            >
+              👯 Find a Roommate
+            </Link>
+            <hr />
 
-        <Link
-          href="/post/post-apartment"
-          className="block text-center border border-green-500 text-green-700 py-3 rounded-xl"
-        >
-          ➕ Post an Apartment
-        </Link>
+            <p className="text-center text-gray-700 mt-2 font-medium">
+              Are you a House Agent / Landlord?
+            </p>
 
-        <Link
-          href="/listings/hostel_requests"
-           className="block text-center border border-green-500 text-green-700 py-3 rounded-xl"
-        >
-          📋 View Students’ Hostel Requests
-        </Link>
-      </div>
-    </main>
-  )
+            <Link
+              href="/post/post-apartment"
+              className="block text-center border border-green-500 text-green-700 py-3 rounded-xl"
+            >
+              ➕ Post an Apartment
+            </Link>
+
+            <Link
+              href="/listings/hostel_requests"
+              className="block text-center border border-green-500 text-green-700 py-3 rounded-xl"
+            >
+              📋 View Students’ Hostel Requests
+            </Link>
+          </div>
+        </motion.main>
+      )}
+    </>
+  );
 }
