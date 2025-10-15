@@ -1,12 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import WelcomeScreen from "@/components/WelcomeScreen";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+// 👇 this variable will persist while navigating (not on reload)
+let hasSeenHome = false;
+
 export default function Home() {
-  const [showHome, setShowHome] = useState(false);
+  const [showHome, setShowHome] = useState(hasSeenHome);
+
+  useEffect(() => {
+    if (showHome) hasSeenHome = true;
+  }, [showHome]);
 
   return (
     <>

@@ -37,10 +37,14 @@ export default function ListingsPage({ params }: any) {
     fetchData();
   }, [role]);
 
+  // 🌿 Modern Loading Spinner
   if (loading)
     return (
-      <div className="text-center py-20 text-green-700 font-semibold">
-        Loading {role} listings...
+      <div className="flex flex-col items-center justify-center h-[70vh]">
+        <div className="w-12 h-12 border-4 border-green-300 border-t-green-600 rounded-full animate-spin"></div>
+        <p className="mt-4 text-green-700 font-medium text-lg">
+          Fetching listings...
+        </p>
       </div>
     );
 
@@ -63,6 +67,9 @@ export default function ListingsPage({ params }: any) {
       ? "/post/find-roommate"
       : "/post/find-hostel";
 
+  // 💬 WhatsApp Number (replace with yours)
+  const whatsappNumber = "2349012345678";
+
   return (
     <div className="max-w-5xl mx-auto py-10 px-6">
       {/* PAGE TITLE */}
@@ -77,29 +84,53 @@ export default function ListingsPage({ params }: any) {
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2">
-          {data.map((r) => (
-            <div
-              key={r.id}
-              className="border border-green-200 rounded-xl p-4 shadow hover:shadow-lg transition"
-            >
-              <h3 className="text-lg font-semibold text-green-700 mb-2">
-                {r.type} — {r.gender}
-              </h3>
-              <p className="text-sm text-gray-700 mb-1">📍 {r.location}</p>
-              {r.religion && (
-                <p className="text-sm text-gray-700 mb-1">🙏 {r.religion}</p>
-              )}
-              {r.rent && (
-                <p className="text-sm text-gray-700 mb-1">💰 {r.rent}</p>
-              )}
-              <p className="text-sm text-gray-700 mb-1">📞 {r.phone}</p>
-              <p className="text-sm text-gray-700 mb-1">👤 {r.name}</p>
-              <p className="text-sm text-gray-600 mt-2">{r.description}</p>
-              <p className="text-xs text-gray-400 mt-2">
-                Posted on {new Date(r.created_at).toLocaleDateString()}
-              </p>
-            </div>
-          ))}
+          {data.map((r, i) => {
+            const idNumber = i + 1;
+            const whatsappMessage = encodeURIComponent(
+              `Hello, I am interested in listing #${idNumber} on CampusConnect.`
+            );
+            const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+            return (
+              <div
+                key={r.id}
+                className="border border-green-200 rounded-xl p-4 shadow hover:shadow-lg transition"
+              >
+                {/* Listing Number */}
+                <p className="text-sm text-green-500 font-semibold mb-1">
+                  #{idNumber}
+                </p>
+
+                <h3 className="text-lg font-semibold text-green-700 mb-2">
+                  {r.type} — {r.gender}
+                </h3>
+
+                <p className="text-sm text-gray-700 mb-1">📍 {r.location}</p>
+                {r.religion && (
+                  <p className="text-sm text-gray-700 mb-1">🙏 {r.religion}</p>
+                )}
+                {r.rent && (
+                  <p className="text-sm text-gray-700 mb-1">💰 {r.rent}</p>
+                )}
+                {/* Removed phone number */}
+                <p className="text-sm text-gray-700 mb-1">👤 {r.name}</p>
+                <p className="text-sm text-gray-600 mt-2">{r.description}</p>
+                <p className="text-xs text-gray-400 mt-2">
+                  Posted on {new Date(r.created_at).toLocaleDateString()}
+                </p>
+
+                {/* WhatsApp Connect Button */}
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-700 transition"
+                >
+                  💬 Connect via WhatsApp
+                </a>
+              </div>
+            );
+          })}
         </div>
       )}
 
