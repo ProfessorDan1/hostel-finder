@@ -1,7 +1,9 @@
 node_modules
 .next
-.env.local
+.vercel
 .env
-.DS_Store
+.env.local
 *.log
-
+out
+dist
+.cache
