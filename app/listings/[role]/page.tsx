@@ -67,8 +67,8 @@ export default function ListingsPage({ params }: any) {
       ? "/post/find-roommate"
       : "/post/find-hostel";
 
-  // 💬 WhatsApp Number (replace with yours)
-  const whatsappNumber = "2349012345678";
+
+  const whatsappNumber = "2349015417805";
 
   return (
     <div className="max-w-5xl mx-auto py-10 px-6">
@@ -85,9 +85,8 @@ export default function ListingsPage({ params }: any) {
       ) : (
         <div className="grid gap-6 md:grid-cols-2">
           {data.map((r, i) => {
-            const idNumber = i + 1;
             const whatsappMessage = encodeURIComponent(
-              `Hello, I am interested in listing #${idNumber} on CampusConnect.`
+              `Hello, I am interested in listing with ID #${r.id} on HostelConnect.`
             );
             const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
@@ -98,23 +97,39 @@ export default function ListingsPage({ params }: any) {
               >
                 {/* Listing Number */}
                 <p className="text-sm text-green-500 font-semibold mb-1">
-                  #{idNumber}
+                  #{i + 1}
                 </p>
 
                 <h3 className="text-lg font-semibold text-green-700 mb-2">
                   {r.type} — {r.gender}
                 </h3>
 
-                <p className="text-sm text-gray-700 mb-1">📍 {r.location}</p>
+                {/* Labeled Info */}
+                <p className="text-sm text-gray-700 mb-1">
+                  📍 <strong>Location:</strong> {r.location}
+                </p>
+
                 {r.religion && (
-                  <p className="text-sm text-gray-700 mb-1">🙏 {r.religion}</p>
+                  <p className="text-sm text-gray-700 mb-1">
+                    🙏 <strong>Religion:</strong> {r.religion}
+                  </p>
                 )}
+
                 {r.rent && (
-                  <p className="text-sm text-gray-700 mb-1">💰 {r.rent}</p>
+                  <p className="text-sm text-gray-700 mb-1">
+                    💰 <strong>Annual Rent:</strong> {r.rent}
+                  </p>
                 )}
-                {/* Removed phone number */}
-                <p className="text-sm text-gray-700 mb-1">👤 {r.name}</p>
+
+                {/* Only show name if not on "find_hostel" */}
+                {role !== "find_hostel" && (
+                  <p className="text-sm text-gray-700 mb-1">
+                    👤 <strong>Name:</strong> {r.name}
+                  </p>
+                )}
+
                 <p className="text-sm text-gray-600 mt-2">{r.description}</p>
+
                 <p className="text-xs text-gray-400 mt-2">
                   Posted on {new Date(r.created_at).toLocaleDateString()}
                 </p>
@@ -140,8 +155,7 @@ export default function ListingsPage({ params }: any) {
           Didn’t find what you’re looking for?
         </h2>
         <p className="text-gray-600 mb-4">
-          Tell us exactly what kind of hostel or roommate you need — we’ll help
-          you find it.
+          Tell us exactly what you need and we'll connect you. 
         </p>
         <Link
           href={postLink}
